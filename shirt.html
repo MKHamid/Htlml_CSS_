@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+       navigator.geolocation.getCurrentPosition(position => {
+  const { latitude, longitude } = position.coords;
+  // Show a map centered at latitude / longitude.
+  map.innerHTML='<iframe width="700" height="300" src="https://maps.google.com/maps?q='+latitude+','+longitude+'&amp;z=15&amp;output=embed"></iframe>';
+});
+
+
+    </script>
+</head>
+<body>
+    <div id="map"></div>
+</body>
+</html>
+
+
+
+
+
+
+
+ <!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        navigator.geolocation.getCurrentPosition(position => {
+            const { latitude, longitude } = position.coords;
+
+            // Show a map centered at latitude / longitude using OpenStreetMap
+            const map = document.getElementById('map');
+            map.innerHTML = `<iframe width="700" height="300" src="https://www.openstreetmap.org/export/embed.html?bbox=${longitude-0.05}%2C${latitude-0.05}%2C${longitude+0.05}%2C${latitude+0.05}&amp;layer=mapnik&amp;marker=${latitude}%2C${longitude}" style="border: 1px solid black"></iframe>`;
+
+            // Fetch the area name using Nominatim reverse geocoding API
+            const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const areaName = data.display_name; // Get the formatted address
+                    const areaButton = document.getElementById('area-button');
+                    areaButton.textContent = `You are in: ${areaName}`;
+                })
+                .catch(error => console.error('Error fetching area name:', error));
+        });
+    </script>
+</head>
+<body>
+    <div id="map"></div>
+    <button id="area-button">Fetching location...</button>
+     <p id="area-button"></p>
+</body>
+</html> -->
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        navigator.geolocation.getCurrentPosition(position => {
+            const { latitude, longitude } = position.coords;
+
+            // Show a map centered at latitude / longitude using OpenStreetMap
+            const map = document.getElementById('map');
+            map.innerHTML = `<iframe width="700" height="300" src="https://www.openstreetmap.org/export/embed.html?bbox=${longitude-0.05}%2C${latitude-0.05}%2C${longitude+0.05}%2C${latitude+0.05}&amp;layer=mapnik&amp;marker=${latitude}%2C${longitude}" style="border: 1px solid black"></iframe>`;
+
+            // Fetch the area name using Nominatim reverse geocoding API
+            const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const address = data.address;
+                    const city = address.city || address.town || address.village; // Common tags for cities in OSM
+                    const district = address.city_district || address.district || address.county; // Common tags for districts in OSM
+
+                    const areaButton = document.getElementById('area-button');
+                    areaButton.textContent = `You are in: ${city}, ${district}`;
+                })
+                .catch(error => console.error('Error fetching area name:', error));
+        });
+    </script>
+</head>
+<body>
+    <div id="map"></div>
+    <button id="area-button">Fetching location...</button>
+</body>
+</html> -->
+
+
+

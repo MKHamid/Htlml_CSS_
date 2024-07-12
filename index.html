@@ -11,6 +11,63 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="AboutUs.html">
     <link rel="stylesheet" href="profile.html">
+
+    <!--for location use this script-->
+    <script>
+        navigator.geolocation.getCurrentPosition(position => {
+            const { latitude, longitude } = position.coords;
+
+            // Show a map centered at latitude / longitude using OpenStreetMap
+            const map = document.getElementById('map');
+            // map.innerHTML = `<iframe width="700" height="300" src="https://www.openstreetmap.org/export/embed.html?bbox=${longitude-0.05}%2C${latitude-0.05}%2C${longitude+0.05}%2C${latitude+0.05}&amp;layer=mapnik&amp;marker=${latitude}%2C${longitude}" style="border: 1px solid black"></iframe>`;
+
+            // Fetch the area name using Nominatim reverse geocoding API
+            const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const address = data.address;
+                    const city = address.city || address.town || address.village; // Common tags for cities in OSM
+                    const district = address.city_district || address.district || address.county; // Common tags for districts in OSM
+
+                    const areaButton = document.getElementById('area-button');
+                    areaButton.textContent = ` ${city}, ${district}`;
+                })
+                .catch(error => console.error('Error fetching area name:', error));
+                areaButton.addEventListener('click', () => {
+                        const areaParagraph = document.getElementById('area-paragraph');
+                        areaParagraph.textContent = `District: ${district}, City: ${city}`;
+                    });
+        });
+    </script>
+
+<!-- 
+    <script>
+        navigator.geolocation.getCurrentPosition(position => {
+            const { latitude, longitude } = position.coords;
+
+            // Show a map centered at latitude / longitude using OpenStreetMap
+            const map = document.getElementById('map');
+            map.innerHTML = `<iframe width="700" height="300" src="https://www.openstreetmap.org/export/embed.html?bbox=${longitude-0.05}%2C${latitude-0.05}%2C${longitude+0.05}%2C${latitude+0.05}&amp;layer=mapnik&amp;marker=${latitude}%2C${longitude}" style="border: 1px solid black"></iframe>`;
+
+            // Fetch the area name using Nominatim reverse geocoding API
+            const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const address = data.address;
+                    const city = address.city || address.town || address.village; // Common tags for cities in OSM
+                    const district = address.city_district || address.district || address.county; // Common tags for districts in OSM
+
+                    const areaButton = document.getElementById('area-button');
+                    areaButton.textContent = ` ${city}, ${district}`;
+                })
+                .catch(error => console.error('Error fetching area name:', error));
+        });
+    </script> -->
+
 </head>
 
 <body>
@@ -36,8 +93,8 @@
             <div class="nav-address border">
                 <p class="add-first">Deliver to</p>
                 <div class="add-icon">
-                    <i class="fa-solid fa-location-dot"></i>
-                    <p class="add-second">Sylhet</p>
+                   <i class="fa-solid fa-location-dot"></i>
+                    <p class="add-second" id="area-button"></p>
                 </div>
             </div>
 
